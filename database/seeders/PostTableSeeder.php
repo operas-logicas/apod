@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Post;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Database\Seeder;
 
 class PostTableSeeder extends Seeder
@@ -14,7 +16,42 @@ class PostTableSeeder extends Seeder
      */
     public function run()
     {
-        // TODO use Guzzle to get sample data from NASA's APOD API
+        /**
+         * Use Guzzle to get some sample data from NASA's APOD API
+         */
+        $client = new Client();
+
+        try {
+            $response = $client->request(
+                'GET',
+                'https://api.nasa.gov/planetary/apod?count=10&api_key=DEMO_KEY'
+            );
+        } catch (RequestException $e) {
+            $this->runIfRequestFails();
+        }
+
+        $type = $response->getHeader('Content-Type');
+        if(in_array('application/json', $type)) {
+            $json = json_decode($response->getBody());
+        } else {
+            exit('Error: Expecting JSON. Got something else!');
+        }
+
+        foreach($json as $record) {
+            $post = new Post([
+                'date' => $record->date,
+                'img_url' => $record->thumbs ?? $record->url,
+                'title' => $record->title,
+                'explanation' => $record->explanation
+            ]);
+
+            $post->save();
+
+        }
+
+    }
+
+    public function runIfRequestFails() {
 
         $post = new Post([
             'date' => '2021-01-26',
@@ -39,5 +76,6 @@ class PostTableSeeder extends Seeder
             'explanation' => "Big, beautiful spiral galaxy Messier 66 lies a mere 35 million light-years away. The gorgeous island universe is about 100 thousand light-years across, similar in size to the Milky Way. This reprocessed Hubble Space Telescope close-up view spans a region about 30,000 light-years wide around the galactic core. It shows the galaxy's disk dramatically inclined to our line-of-sight. Surrounding its bright core, the likely home of a supermassive black hole, obscuring dust lanes and young, blue star clusters sweep along spiral arms dotted with the tell-tale glow of pinksh star forming regions. Messier 66, also known as NGC 3627, is the brightest of the three galaxies in the gravitationaly interacting Leo Triplet."
         ]);
         $post->save();
+
     }
 }
