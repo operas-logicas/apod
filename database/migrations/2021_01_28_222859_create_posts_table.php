@@ -18,7 +18,11 @@ class CreatePostsTable extends Migration
             $table->date('date');
             $table->string('img_url');
             $table->string('title');
+            $table->string('copyright')->nullable();
+            $table->date('original_date');
             $table->text('explanation');
+            $table->boolean('active');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

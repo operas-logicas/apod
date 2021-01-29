@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 // index GET
 Route::get('/', [
-    'uses' => 'PostController@getIndex',
+    'uses' => 'PostViewController@getIndex',
     'as' => 'index'
 ]);
 
@@ -24,6 +24,17 @@ Route::get('/', [
 Route::get('/about', function() {
     return view('about');
 })->name('about');
+
+// admin GET
+Route::get('/admin', function() {
+    return redirect('admin/posts');
+});
+
+// index/post GET
+Route::get('/posts/{id}', [
+    'uses' => 'PostViewController@getPost',
+    'as' => 'index.post'
+]);
 
 // admin GROUP
 Route::group([
@@ -35,27 +46,56 @@ Route::group([
     Route::group([
         'prefix' => 'posts'
     ], function() {
+
         // admin/posts GET
         Route::get('', [
-            'uses' => 'PostController@getAdminIndex',
+            'uses' => 'PostViewController@getAdminIndex',
             'as' => 'posts.index'
         ]);
 
         // admin/posts/create GET
-        Route::get('create', function() {
-            return view('admin.posts.create');
-        })->name('posts.create');
+        Route::get('create', [
+            'uses' => 'PostViewController@getAdminCreate',
+            'as' => 'posts.create'
+        ]);
+
+        // admin/posts/create POST
+        Route::post('create', [
+            'uses' => 'PostViewController@postAdminCreate',
+            'as' => 'posts.create'
+        ]);
 
         // admin/posts/edit GET
-        Route::get('edit', function() {
-            return view('admin.posts.edit');
-        })->name('posts.edit');
+        Route::get('edit/{id}', [
+            'uses' => 'PostViewController@getAdminEdit',
+            'as' => 'posts.edit'
+        ]);
+
+        // admin/posts/edit POST
+        Route::post('edit', [
+            'uses' => 'PostViewController@postAdminEdit',
+            'as' => 'posts.edit'
+        ]);
+
+        // admin/posts/delete GET
+        Route::get('delete/{id}', [
+            'uses' => 'PostViewController@getAdminDelete',
+            'as' => 'posts.delete'
+        ]);
+
+        // admin/posts/date GET
+        Route::get('{date}', [
+            'uses' => 'PostViewController@getAdminIndex',
+            'as' => 'posts.index.date'
+        ]);
+
     });
 
     // admin/users GROUP
     Route::group([
         'prefix' => 'users',
     ], function() {
+
         // admin/users GET
         Route::get('', [
             'uses' => 'UserController@getIndex',
@@ -63,16 +103,43 @@ Route::group([
         ]);
 
         // admin/users/create GET
-        Route::get('create', function() {
-            return view('admin.users.create');
-        })->name('users.create');
+        Route::get('create', [
+            'uses' => 'UserController@getUserCreate',
+            'as' => 'users.create'
+        ]);
+
+        // admin/users/create POST
+        Route::post('create', [
+            'uses' => 'UserController@postUserCreate',
+            'as' => 'users.create'
+        ]);
 
         // admin/users/edit GET
-        Route::get('edit', function() {
-            return view('admin.users.edit');
-        })->name('users.edit');
+        Route::get('edit/{id}', [
+            'uses' => 'UserController@getUserEdit',
+            'as' => 'users.edit'
+        ]);
+
+        // admin/users/edit POST
+        Route::post('edit', [
+            'uses' => 'UserController@postUserEdit',
+            'as' => 'users.edit'
+        ]);
+
+        // admin/users/delete GET
+        Route::get('delete', [
+            'uses' => 'UserController@getUserDelete',
+            'as' => 'users.delete'
+        ]);
+
     });
 
 });
 
 Auth::routes();
+
+// index/date GET
+Route::get('/{date}', [
+    'uses' => 'PostViewController@getIndex',
+    'as' => 'index.date'
+]);

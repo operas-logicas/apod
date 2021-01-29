@@ -9,7 +9,19 @@ class UserController extends Controller
 {
     public function getIndex()
     {
-        $users = User::orderBy('name', 'asc')->get();
+        $users = User::orderBy('name', 'asc')
+            ->paginate(10);
         return view('admin.users.index', ['users' => $users]);
     }
+
+    public function getUserCreate() {}
+
+    public function getUserEdit($id) {}
+
+    public function postUserCreate(Request $request) {}
+
+    public function postUserEdit(Request $request) {}
+
+    public function getUserDelete($id) {}
+
 }

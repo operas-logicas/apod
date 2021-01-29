@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="application-name" content="Astronomy Picture of the Day">
-    <meta name="description" content="Astronomy Picture of the Day features a different image or photograph each day of our fascinating universe along with a brief explanation written by a professional astronomer. Modeled after NASA's Astronomy Picture of the Day with sample data from NASA's APOD API.">
+    <meta name="description" content="Astronomy Pictures of the Day</strong> features different images or photographs each day of our universe, along with a brief explanation written by a professional astronomer. Images and explanations are collated by users of the site from the NASA Astronomy Picture of the Day (APOD) API.">
 
-    <title>Astronomy Picture of the Day</title>
+    <title>Astronomy Pictures of the Day</title>
 
     <!-- Boostrap 4.6 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">

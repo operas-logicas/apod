@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <a class="navbar-brand" href="{{ route('index') }}">APOD</a>
-    <span class="navbar-text mr-auto">Astronomy Picture of the Day</span>
+    <span class="navbar-text mr-auto">Astronomy Pictures of the Day</span>
     <button class="navbar-toggler nowrap truncate" type="button" data-toggle="collapse" data-target="#toggleNav" aria-controls="toggleNav" aria-expanded="false" aria-label="Toggle Navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
