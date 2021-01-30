@@ -5,7 +5,7 @@
     @include('partials.admin')
 
     <div class="mt-5">
-        <a href="{{ route('posts.create') }}" class="btn btn-sm btn-success">New Post</a>
+        <a href="{{ route('admin.posts.create') }}" class="btn btn-sm btn-success">New Post</a>
     </div>
     <hr>
     <div class="row">
@@ -21,8 +21,8 @@
         <div class="row">
             <div class="col-md-12">
                 <p class="{{ !$post->active ? 'text-black-50' : '' }}"><strong>{{ $post->date }}</strong> - {{ $post->title }}
-                    <a class="badge badge-sm badge-warning mx-1" href="{{ route('posts.edit', ['id' => $post->id]) }}">Edit</a>
-                    <a class="badge badge-sm badge-danger mx-1" href="{{ route('posts.delete', ['id' => $post->id]) }}">Delete</a>
+                    <a class="badge badge-sm badge-warning mx-1" href="{{ route('admin.posts.edit', $post->id) }}">Edit</a>
+                    <a class="badge badge-sm badge-danger mx-1" href="{{ route('admin.posts.delete', $post->id) }}">Delete</a>
                 </p>
             </div>
         </div>

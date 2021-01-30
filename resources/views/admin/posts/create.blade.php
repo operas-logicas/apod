@@ -7,11 +7,11 @@
     <h3 class="mt-5">New Post</h3>
     <div class="row mt-3 pb-5">
         <div class="col-md-12">
-            <form action="{{ route('posts.create') }}" method="post">
+            <form action="{{ route('admin.posts.create') }}" method="post">
                 <div class="form-group">
                     <label for="active">Active</label>
                     <input type="hidden" name="active" value="0">
-                    <input type="checkbox" class="form-control" id="active" name="active" value="1">
+                    <input type="checkbox" class="form-check form-check-inline ml-1" id="active" name="active" value="1">
                 </div>
                 <div class="form-group">
                     <label for="date">Date</label>

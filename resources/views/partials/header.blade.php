@@ -10,6 +10,9 @@
                 <a class="nav-item nav-link {{ Request::routeIs('index') ? 'active' : '' }}" href="{{ route('index') }}">Home</a>
             </li>
             <li>
+                <a class="nav-item nav-link {{ Request::routeIs('index.date') ? 'active' : '' }}" href="{{ route('index.date', date('Y-m-d', time())) }}">Today</a>
+            </li>
+            <li>
                 <a class="nav-item nav-link {{ Request::routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a>
             </li>
             @if(!Auth::check())
@@ -21,10 +24,10 @@
                 </li>
             @else
                 <li>
-                    <a class="nav-item nav-link {{ Request::routeIs('posts.index') ? 'active' : '' }}" href="{{ route('posts.index') }}">Posts</a>
+                    <a class="nav-item nav-link {{ Request::routeIs('admin.posts.index') ? 'active' : '' }}" href="{{ route('admin.posts.index') }}">Posts</a>
                 </li>
                 <li>
-                    <a class="nav-item nav-link {{ Request::routeIs('users.index') ? 'active' : '' }}" href="{{ route('users.index') }}">Users</a>
+                    <a class="nav-item nav-link {{ Request::routeIs('admin.users.index') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">Users</a>
                 </li>
                 <li>
                     <a class="nav-item nav-link" href="{{ route('logout') }}"

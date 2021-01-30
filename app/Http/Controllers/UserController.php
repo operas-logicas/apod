@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function getIndex()
+    public function getUserIndex()
     {
         $users = User::orderBy('name', 'asc')
             ->paginate(10);
@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function postUserCreate(Request $request) {}
 
-    public function postUserEdit(Request $request) {}
+    public function postUserUpdate(Request $request) {}
 
     public function getUserDelete($id) {}
 

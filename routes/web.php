@@ -50,43 +50,43 @@ Route::group([
         // admin/posts GET
         Route::get('', [
             'uses' => 'PostViewController@getAdminIndex',
-            'as' => 'posts.index'
+            'as' => 'admin.posts.index'
         ]);
 
         // admin/posts/create GET
         Route::get('create', [
             'uses' => 'PostViewController@getAdminCreate',
-            'as' => 'posts.create'
+            'as' => 'admin.posts.create'
         ]);
 
         // admin/posts/create POST
         Route::post('create', [
             'uses' => 'PostViewController@postAdminCreate',
-            'as' => 'posts.create'
+            'as' => 'admin.posts.create'
         ]);
 
         // admin/posts/edit GET
         Route::get('edit/{id}', [
             'uses' => 'PostViewController@getAdminEdit',
-            'as' => 'posts.edit'
+            'as' => 'admin.posts.edit'
         ]);
 
         // admin/posts/edit POST
         Route::post('edit', [
-            'uses' => 'PostViewController@postAdminEdit',
-            'as' => 'posts.edit'
+            'uses' => 'PostViewController@postAdminUpdate',
+            'as' => 'admin.posts.update'
         ]);
 
         // admin/posts/delete GET
         Route::get('delete/{id}', [
             'uses' => 'PostViewController@getAdminDelete',
-            'as' => 'posts.delete'
+            'as' => 'admin.posts.delete'
         ]);
 
         // admin/posts/date GET
         Route::get('{date}', [
             'uses' => 'PostViewController@getAdminIndex',
-            'as' => 'posts.index.date'
+            'as' => 'admin.posts.index.date'
         ]);
 
     });
@@ -98,38 +98,38 @@ Route::group([
 
         // admin/users GET
         Route::get('', [
-            'uses' => 'UserController@getIndex',
-            'as' => 'users.index'
+            'uses' => 'UserController@getUserIndex',
+            'as' => 'admin.users.index'
         ]);
 
         // admin/users/create GET
         Route::get('create', [
             'uses' => 'UserController@getUserCreate',
-            'as' => 'users.create'
+            'as' => 'admin.users.create'
         ]);
 
         // admin/users/create POST
         Route::post('create', [
             'uses' => 'UserController@postUserCreate',
-            'as' => 'users.create'
+            'as' => 'admin.users.create'
         ]);
 
         // admin/users/edit GET
         Route::get('edit/{id}', [
             'uses' => 'UserController@getUserEdit',
-            'as' => 'users.edit'
+            'as' => 'admin.users.edit'
         ]);
 
         // admin/users/edit POST
         Route::post('edit', [
-            'uses' => 'UserController@postUserEdit',
-            'as' => 'users.edit'
+            'uses' => 'UserController@postUserUpdate',
+            'as' => 'admin.users.update'
         ]);
 
         // admin/users/delete GET
-        Route::get('delete', [
+        Route::get('delete/{id}', [
             'uses' => 'UserController@getUserDelete',
-            'as' => 'users.delete'
+            'as' => 'admin.users.delete'
         ]);
 
     });
