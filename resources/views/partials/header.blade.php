@@ -10,7 +10,7 @@
                 <a class="nav-item nav-link {{ Request::routeIs('index') ? 'active' : '' }}" href="{{ route('index') }}">Home</a>
             </li>
             <li>
-                <a class="nav-item nav-link {{ Request::routeIs('index.date') ? 'active' : '' }}" href="{{ route('index.date', date('Y-m-d', time())) }}">Today</a>
+                <a class="nav-item nav-link {{ Request::routeIs('index.date') && $date == date('Y-m-d', time()) ? 'active' : '' }}" href="{{ route('index.date', date('Y-m-d', time())) }}">Today</a>
             </li>
             <li>
                 <a class="nav-item nav-link {{ Request::routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a>

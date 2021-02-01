@@ -30,7 +30,7 @@ Route::get('/admin', function() {
     return redirect('admin/posts');
 });
 
-// index/post GET
+// index/post/{post_id} GET
 Route::get('/posts/{id}', [
     'uses' => 'PostViewController@getPost',
     'as' => 'index.post'
@@ -65,7 +65,7 @@ Route::group([
             'as' => 'admin.posts.create'
         ]);
 
-        // admin/posts/edit GET
+        // admin/posts/edit/{post_id} GET
         Route::get('edit/{id}', [
             'uses' => 'PostViewController@getAdminEdit',
             'as' => 'admin.posts.edit'
@@ -77,16 +77,10 @@ Route::group([
             'as' => 'admin.posts.update'
         ]);
 
-        // admin/posts/delete GET
+        // admin/posts/delete/{post_id} GET
         Route::get('delete/{id}', [
             'uses' => 'PostViewController@getAdminDelete',
             'as' => 'admin.posts.delete'
-        ]);
-
-        // admin/posts/date GET
-        Route::get('{date}', [
-            'uses' => 'PostViewController@getAdminIndex',
-            'as' => 'admin.posts.index.date'
         ]);
 
     });

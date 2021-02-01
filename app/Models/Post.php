@@ -10,11 +10,11 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date', 'img_url', 'title', 'copyright', 'original_date', 'explanation'
+        'date', 'img_url', 'title', 'copyright', 'original_date', 'explanation', 'active'
     ];
 
     public function user() {
-        return $this->belongsTo('App\Model\User', 'user_id');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 
     /**

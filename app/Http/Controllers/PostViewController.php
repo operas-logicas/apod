@@ -5,24 +5,35 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PostViewController extends Controller
 {
     public function getIndex($date = null)
     {
         if($date) {
+            // If date supplied, show only posts from date
             $posts = Post::where('date', $date)
                 ->where('active', true)
                 ->orderBy('updated_at', 'desc')
                 ->Paginate();
+
         } else {
+            // Else show them all
             $posts = Post::where('active', true)
                 ->orderBy('date', 'desc')
                 ->orderBy('updated_at', 'desc')
-                ->Paginate(4);
+                ->Paginate(5);
         }
 
-        return view('index', ['posts' => $posts]);
+        // Get the users' names to display in posts
+        $users = [];
+        foreach($posts as $post) {
+            $users[$post->id] = User::find($post->user_id)->name;
+        }
+
+        return view('index', ['posts' => $posts, 'users' => $users, 'date' => $date]);
     }
 
     public function getPost($id)
@@ -34,17 +45,13 @@ class PostViewController extends Controller
         return view('post', ['post' => $post]);
     }
 
-    public function getAdminIndex($date = null)
+    public function getAdminIndex()
     {
-        if($date) {
-            $posts = Post::where('date', $date)
-                ->orderBy('created_at', 'desc')
-                ->Paginate();
-        } else {
-            $posts = Post::orderBy('date', 'desc')
-                ->orderBy('updated_at', 'desc')
-                ->Paginate(8);
-        }
+        // Get only logged in user's posts
+        $posts = Post::where('user_id', Auth::user()->id)
+            ->orderBy('date', 'desc')
+            ->orderBy('updated_at', 'desc')
+            ->Paginate(10);
 
         return view('admin.posts.index', ['posts' => $posts]);
     }
@@ -63,15 +70,56 @@ class PostViewController extends Controller
         ]);
     }
 
-    public function postAdminCreate(Request $request) {}
+    public function postAdminCreate(Request $request)
+    {
+        // Form validation
+        $this->validate($request, [
+            'date' => 'required|date_format:Y-m-d',
+            'img_url' => 'required|url',
+            'title' => 'required|min:5',
+            'original_date' => 'required|date_format:Y-m-d',
+            'explanation' => 'required|min:10',
+            'active' => 'required|boolean'
+        ]);
+
+        $user = Auth::user();
+        $post = new Post([
+            'date' => $request->input('date'),
+            'img_url' => $request->input('img_url'),
+            'title' => $request->input('title'),
+            'copyright' => $request->input('copyright'),
+            'original_date' => $request->input('original_date'),
+            'explanation' => $request->input('explanation'),
+            'active' => $request->input('active')
+        ]);
+
+        $user->posts()->save($post);
+
+        return redirect()
+            ->route('admin.posts.index')
+            ->with('info', 'Post created, title: ' . $request->input('title'));
+    }
 
     public function postAdminUpdate(Request $request)
     {
-        // TODO form validation
+        // Form validation
+        $this->validate($request, [
+            'date' => 'required|date_format:Y-m-d',
+            'img_url' => 'required|url',
+            'title' => 'required|min:5',
+            'original_date' => 'required|date_format:Y-m-d',
+            'explanation' => 'required|min:10',
+            'active' => 'required|boolean'
+        ]);
 
         $post = POST::find($request->input('id'));
 
-        // TODO check if user is authorized
+        // Check if user is authorized
+        if(Gate::denies('change-post', $post)) {
+            return redirect()
+                ->back()
+                ->with('fail', 'Not authorized!');
+        }
 
         $post->date = $request->input('date');
         $post->img_url = $request->input('img_url');
@@ -85,9 +133,25 @@ class PostViewController extends Controller
 
         return redirect()
             ->route('admin.posts.index')
-            ->with('info', 'Post updated.');
+            ->with('info', 'Post updated, title: ' . $request->input('title'));
     }
 
-    public function getAdminDelete($id) {}
+    public function getAdminDelete($id)
+    {
+        $post = Post::find($id);
+
+        // Check if user is authorized
+        if(Gate::denies('change-post', $post)) {
+            return redirect()
+                ->back()
+                ->with('fail', 'Not authorized!');
+        }
+
+        $post->delete();
+
+        return redirect()
+            ->route('admin.posts.index')
+            ->with('info', 'Post deleted!');
+    }
 
 }

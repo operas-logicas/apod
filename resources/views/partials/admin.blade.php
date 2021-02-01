@@ -1,3 +1,7 @@
+@include('partials.session')
+
+@include('partials.errors')
+
 <h2 class="display-4">Admin</h1>
 <ul class="nav nav-tabs mt-3">
     <li class="nav-item">

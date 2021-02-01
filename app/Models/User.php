@@ -42,6 +42,6 @@ class User extends Authenticatable
     ];
 
     public function posts() {
-        return $this->hasMany('App\Model\Post', 'user_id');
+        return $this->hasMany('App\Models\Post', 'user_id');
     }
 }
