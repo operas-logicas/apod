@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Post;
+use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Database\Seeder;
@@ -37,6 +38,12 @@ class PostTableSeeder extends Seeder
             exit('Error: Expecting JSON. Got something else!');
         }
 
+        $users = User::all();
+        $user_ids = [];
+        foreach($users as $user) {
+            $user_ids[] = $user->id;
+        }
+
         foreach($json as $record) {
             $post = new Post([
                 'date' => date('Y-m-d', rand(time() - 60*60*24*3, time())),
@@ -46,7 +53,7 @@ class PostTableSeeder extends Seeder
                 'original_date' => $record->date,
                 'explanation' => $record->explanation,
                 'active' => true,
-                'user_id' => rand(1, 2)
+                'user_id' => $user_ids[array_rand($user_ids)]
             ]);
 
             $post->save();
@@ -89,7 +96,7 @@ class PostTableSeeder extends Seeder
             'original_date' => '2021-01-28',
             'explanation' => "Big, beautiful spiral galaxy Messier 66 lies a mere 35 million light-years away. The gorgeous island universe is about 100 thousand light-years across, similar in size to the Milky Way. This reprocessed Hubble Space Telescope close-up view spans a region about 30,000 light-years wide around the galactic core. It shows the galaxy's disk dramatically inclined to our line-of-sight. Surrounding its bright core, the likely home of a supermassive black hole, obscuring dust lanes and young, blue star clusters sweep along spiral arms dotted with the tell-tale glow of pinksh star forming regions. Messier 66, also known as NGC 3627, is the brightest of the three galaxies in the gravitationaly interacting Leo Triplet.",
             'active' => true,
-            'user_id' => 2
+            'user_id' => 1
         ]);
         $post->save();
 

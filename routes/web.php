@@ -92,37 +92,37 @@ Route::group([
 
         // admin/users GET
         Route::get('', [
-            'uses' => 'UserController@getUserIndex',
+            'uses' => 'UserViewController@getUserIndex',
             'as' => 'admin.users.index'
         ]);
 
         // admin/users/create GET
         Route::get('create', [
-            'uses' => 'UserController@getUserCreate',
+            'uses' => 'UserViewController@getUserCreate',
             'as' => 'admin.users.create'
         ]);
 
         // admin/users/create POST
         Route::post('create', [
-            'uses' => 'UserController@postUserCreate',
+            'uses' => 'UserViewController@postUserCreate',
             'as' => 'admin.users.create'
         ]);
 
-        // admin/users/edit GET
+        // admin/users/edit/{user_id} GET
         Route::get('edit/{id}', [
-            'uses' => 'UserController@getUserEdit',
+            'uses' => 'UserViewController@getUserEdit',
             'as' => 'admin.users.edit'
         ]);
 
         // admin/users/edit POST
         Route::post('edit', [
-            'uses' => 'UserController@postUserUpdate',
+            'uses' => 'UserViewController@postUserUpdate',
             'as' => 'admin.users.update'
         ]);
 
-        // admin/users/delete GET
+        // admin/users/delete/{user_id} GET
         Route::get('delete/{id}', [
-            'uses' => 'UserController@getUserDelete',
+            'uses' => 'UserViewController@getUserDelete',
             'as' => 'admin.users.delete'
         ]);
 

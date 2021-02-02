@@ -17,14 +17,14 @@ class PostViewController extends Controller
             $posts = Post::where('date', $date)
                 ->where('active', true)
                 ->orderBy('updated_at', 'desc')
-                ->Paginate();
+                ->paginate();
 
         } else {
             // Else show them all
             $posts = Post::where('active', true)
                 ->orderBy('date', 'desc')
                 ->orderBy('updated_at', 'desc')
-                ->Paginate(5);
+                ->paginate(5);
         }
 
         // Get the users' names to display in posts
@@ -47,11 +47,19 @@ class PostViewController extends Controller
 
     public function getAdminIndex()
     {
-        // Get only logged in user's posts
-        $posts = Post::where('user_id', Auth::user()->id)
-            ->orderBy('date', 'desc')
-            ->orderBy('updated_at', 'desc')
-            ->Paginate(10);
+        // Get only logged in user's posts unless superuser
+        $user_id = Auth::user()->id;
+        if($user_id !== 1) {
+            $posts = Post::where('user_id', $user_id)
+                ->orderBy('date', 'desc')
+                ->orderBy('updated_at', 'desc')
+                ->paginate(10);
+        } else {
+            // superuser so get all posts
+            $posts = Post::orderBy('date', 'desc')
+                ->orderBy('updated_at', 'desc')
+                ->paginate(10);
+        }
 
         return view('admin.posts.index', ['posts' => $posts]);
     }
