@@ -61,7 +61,7 @@
                     >
                 </div>
                 <div class="form-group">
-                    <label for="original_date">Original Published Date</label>
+                    <label for="original_date">Original Posted Date</label>
                     <input
                         type="date"
                         class="form-control"
