@@ -42,7 +42,9 @@ class PostViewController extends Controller
             ->where('active', true)
             ->first();
 
-        return view('post', ['post' => $post]);
+        $user_name = User::find($post->user_id)->name;
+
+        return view('post', ['post' => $post, 'user_name' => $user_name]);
     }
 
     public function getAdminIndex()

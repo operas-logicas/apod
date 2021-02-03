@@ -8,7 +8,7 @@
     @foreach($posts as $post)
         <div class="row mt-3 pb-5">
             <div class="col">
-                <h3>{{ $post->title }}</h3>
+                <h3><a style="color: #212529 !important" href="{{ route('index.post', $post->id) }}">{{ $post->title }}</a></h3>
                 <h6>Posted by {{ $users[$post->id] }}</h6>
                 <p class="mt-n2">{{ $post->date }}</p>
                 <img class="img-fluid" src="{{ $post->img_url }}">
