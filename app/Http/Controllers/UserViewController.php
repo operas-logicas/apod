@@ -18,7 +18,7 @@ class UserViewController extends Controller
             $users = User::where('id', $user_id)
                 ->paginate();
         } else {
-            // superuser so get all users
+            // Is superuser so get all users
             $users = User::orderBy('name', 'asc')
                 ->paginate(10);
         }
@@ -42,7 +42,9 @@ class UserViewController extends Controller
 
     public function postUserCreate(Request $request)
     {
-        // Check if user is authorized (superuser)
+        // Check if user is authorized (i.e. is superuser).
+        // Only superuser can use the backend to create new users.
+        // New users themselves may register through the front end.
         if(Auth::user()->id !== 1) {
             return redirect()
                 ->back()
@@ -84,7 +86,7 @@ class UserViewController extends Controller
     {
         $user = User::find($request->input('id'));
 
-        // Check if user is authorized
+        // Check if user is authorized (i.e. is user or is superuser)
         if(Gate::denies('change-user', $user)) {
             return redirect()
                 ->back()
@@ -126,8 +128,8 @@ class UserViewController extends Controller
     {
         $user = User::find($id);
 
-        // Check if user is authorized
-        // Prevent superuser from being deleted!
+        // Check if user is authorized (i.e. is user or is superuser).
+        // But prevent superuser from being deleted!
         if($user->id === 1 || Gate::denies('change-user', $user)) {
             return redirect()
                 ->back()
