@@ -14,7 +14,8 @@
                 </div>
                 <button type="submit" class="btn btn-primary" id="get_nasa_apod">Get Data</button>
             </form>
-            <form action="{{ route('admin.posts.create') }}" method="post" class="mt-5">
+            <p class="mt-5"><em>Please only edit for formatting to preserve accurate information.</em></p>
+            <form action="{{ route('admin.posts.create') }}" method="post">
                 <div class="form-group">
                     <label for="active">Active</label>
                     <input type="hidden" name="active" value="0">

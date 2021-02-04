@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="application-name" content="Astronomy Picture of the Day">
-    <meta name="description" content="Astronomy Pictures of the Day</strong> features different images or photographs each day of our universe, along with a brief explanation written by a professional astronomer. Images and explanations are collated by users of the site from the NASA Astronomy Picture of the Day (APOD) API.">
+    <meta name="description" content="Astronomy Pictures of the Day features different images or photographs each day, along with a brief explanation written by a professional astronomer. Images and data are collated by users of the site from NASA's Astronomy Picture of the Day (APOD) API, and are only edited for formatting.">
 
     <title>Astronomy Pictures of the Day</title>
 

@@ -7,6 +7,7 @@
     <h3 class="mt-5">Edit Post</h3>
     <div class="row mt-3 pb-5">
         <div class="col-md-12">
+            <p><em>Please only edit for formatting to preserve accurate information.</em></p>
             <form action="{{ route('admin.posts.update') }}" method="post">
                 <div class="form-group">
                     <label for="active">Active</label>

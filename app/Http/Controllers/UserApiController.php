@@ -106,7 +106,13 @@ class UserApiController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
+        // First check if user exists
+        if(!$user = User::find($id)) {
+            return response()->json([
+                'msg' => 'User not found'
+            ], 404);
+        }
+
         $posts = Post::where('user_id', $id)
             ->orderBy('updated_at', 'desc')
             ->get();
@@ -293,7 +299,11 @@ class UserApiController extends Controller
 
         return response()->json([
             'msg' => 'Successfully logged in',
-            'token' => $token
+            'token' => $token,
+            'logout' => [
+                'href' => 'api/v1/users/logout',
+                'method' => 'POST'
+            ]
         ], 200);
     }
 

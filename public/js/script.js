@@ -14,7 +14,7 @@ $('a.user_delete').on('click', function(evt) {
     }
 });
 
-// Get APOD from NASA using ajax
+// Get APOD from NASA's API using jQuery ajax
 $('#get_nasa_apod').on('click', function(evt) {
     evt.preventDefault();
 

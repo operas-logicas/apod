@@ -42,6 +42,11 @@ class PostViewController extends Controller
             ->where('active', true)
             ->first();
 
+        if(!$post) {
+            return redirect()
+                ->route('index');
+        }
+
         $user_name = User::find($post->user_id)->name;
 
         return view('post', ['post' => $post, 'user_name' => $user_name]);
