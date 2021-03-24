@@ -25,14 +25,10 @@ Route::group([
     ]);
 
     // posts
-    Route::resource('posts', 'PostApiController', [
-        'except' => ['create', 'edit']
-    ]);
+    Route::apiResource('posts', 'PostApiController');
 
     // users
-    Route::resource('users', 'UserApiController', [
-        'except' => ['create', 'edit']
-    ]);
+    Route::apiResource('users', 'UserApiController');
 
     // users/login POST
     Route::post('users/login', [

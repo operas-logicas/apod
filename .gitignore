@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/.idea
 /.vscode
 .DS_Store
 .env
