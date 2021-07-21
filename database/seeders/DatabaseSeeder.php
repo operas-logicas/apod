@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
@@ -24,11 +25,12 @@ class DatabaseSeeder extends Seeder
         // Disable mass-assignment protection
         Model::unguard();
 
-        // Truncate tables to re-seed
+        // Truncate tables and re-seed
+        DB::table('users')->truncate();
         DB::table('posts')->truncate();
 
-        // Not using a factory to get fake seed
-        // \App\Models\User::factory(10)->create();
+        // Create some fake users before seeding posts
+        User::factory(10)->create();
 
         // Seed tables
         $this->call(PostTableSeeder::class);
