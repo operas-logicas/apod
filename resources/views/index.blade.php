@@ -7,7 +7,7 @@
         <h2 class="pb-5">{{ date('F j, Y', strtotime($date)) }}</h2>
     @endif
 
-    @if($posts)
+    @if($posts->count() > 0)
         @foreach($posts as $post)
             <div class="row mt-3 pb-5">
                 <div class="col">
