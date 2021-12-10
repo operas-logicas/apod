@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
@@ -18,9 +17,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Don't seed if in production!
-        if(App::environment() === 'production') {
-            exit("Don't seed! In production.");
-        }
+        // if(App::environment() === 'production') {
+        //     exit("Don't seed! In production.");
+        // }
 
         // Disable mass-assignment protection
         Model::unguard();
@@ -32,7 +31,7 @@ class DatabaseSeeder extends Seeder
         // Create some fake users before seeding posts
         User::factory(10)->create();
 
-        // Seed tables
+        // Seed posts table
         $this->call(PostTableSeeder::class);
     }
 }
