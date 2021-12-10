@@ -62,7 +62,7 @@ Route::group([
         // admin/posts/create POST
         Route::post('create', [
             'uses' => 'PostViewController@postAdminCreate',
-            'as' => 'admin.posts.create'
+            'as' => 'admin.posts.store'
         ]);
 
         // admin/posts/edit/{post_id} GET
@@ -105,7 +105,7 @@ Route::group([
         // admin/users/create POST
         Route::post('create', [
             'uses' => 'UserViewController@postUserCreate',
-            'as' => 'admin.users.create'
+            'as' => 'admin.users.store'
         ]);
 
         // admin/users/edit/{user_id} GET
