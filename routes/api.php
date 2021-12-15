@@ -17,12 +17,15 @@ Route::group([
     'prefix' => 'v1',
 ], function() {
 
-    // posts/{input} GET
-    // {input} is either a date (YYYY-MM-DD) OR id,
-    // in which case id is passed to PostApiController@show
-    Route::get('posts/{input}', [
-        'uses' => 'PostApiController@index'
-    ]);
+    // posts/{id} GET
+    Route::get('posts/{id}', [
+        'uses' => 'PostApiController@show'
+    ])->where('id', '^\d+$');
+
+    // posts/{date} GET
+    Route::get('posts/{date}', [
+        'uses' => 'PostApiController@indexForDate'
+    ])->where('date', '^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$');
 
     // posts
     Route::apiResource('posts', 'PostApiController');

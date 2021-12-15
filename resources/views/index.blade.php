@@ -3,7 +3,7 @@
 @section('content')
     <h1 class="display-3 pb-3">Astronomy Pictures of the Day</h1>
 
-    @if( Request::routeIs('index.date'))
+    @if(Request::routeIs('index.date') && $date)
         <h2 class="pb-5">{{ date('F j, Y', strtotime($date)) }}</h2>
     @endif
 

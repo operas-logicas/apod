@@ -10,22 +10,30 @@ use Illuminate\Support\Facades\Gate;
 
 class PostViewController extends Controller
 {
-    public function getIndex($date = null)
+    public function getIndex()
     {
-        if($date) {
-            // If date supplied, show only posts from date
-            $posts = Post::where('date', $date)
-                ->where('active', true)
-                ->orderBy('updated_at', 'desc')
-                ->paginate();
+        // Get all posts
+        $posts = Post::where('active', true)
+            ->orderBy('date', 'desc')
+            ->orderBy('updated_at', 'desc')
+            ->paginate(5);
 
-        } else {
-            // Else show them all
-            $posts = Post::where('active', true)
-                ->orderBy('date', 'desc')
-                ->orderBy('updated_at', 'desc')
-                ->paginate(5);
+        // Get the users' names to display in posts
+        $users = [];
+        foreach($posts as $post) {
+            $users[$post->id] = User::find($post->user_id)->name;
         }
+
+        return view('index', ['posts' => $posts, 'users' => $users]);
+    }
+
+    public function getIndexForDate($date)
+    {
+        // Get all posts for date
+        $posts = Post::where('date', $date)
+            ->where('active', true)
+            ->orderBy('updated_at', 'desc')
+            ->paginate();
 
         // Get the users' names to display in posts
         $users = [];
@@ -38,13 +46,13 @@ class PostViewController extends Controller
 
     public function getPost($id)
     {
+        // Get post by id
         $post = Post::where('id', $id)
             ->where('active', true)
             ->first();
 
         if(!$post) {
-            return redirect()
-                ->route('index');
+            abort(404);
         }
 
         $user_name = User::find($post->user_id)->name;

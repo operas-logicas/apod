@@ -20,6 +20,12 @@ Route::get('/', [
     'as' => 'index'
 ]);
 
+// index/date GET
+Route::get('/{date}', [
+    'uses' => 'PostViewController@getIndexForDate',
+    'as' => 'index.date'
+])->where('date', '^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$');
+
 // about GET
 Route::get('/about', function() {
     return view('about');
@@ -30,11 +36,16 @@ Route::get('/admin', function() {
     return redirect('admin/posts');
 });
 
-// index/post/{post_id} GET
+// index/posts/
+Route::get('/posts', function() {
+    return redirect('/');
+});
+
+// index/posts/{id} GET
 Route::get('/posts/{id}', [
     'uses' => 'PostViewController@getPost',
     'as' => 'index.post'
-]);
+])->where('id', '^\d+$');
 
 // admin GROUP
 Route::group([
@@ -131,9 +142,3 @@ Route::group([
 });
 
 Auth::routes();
-
-// index/date GET
-Route::get('/{date}', [
-    'uses' => 'PostViewController@getIndex',
-    'as' => 'index.date'
-]);

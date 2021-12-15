@@ -78,7 +78,7 @@ class PostTableSeeder extends Seeder
 
                 foreach ($json as $record) {
                     $post = new Post([
-                        'date' => date('Y-m-d', rand(time() - 60*60*24*3, time())),
+                        'date' => date('Y-m-d', time() - rand(0, 3) * 24 * 60 * 60),
                         'img_url' => $record->thumbnail_url ?? $record->url,
                         'title' => $record->title,
                         'copyright' => $record->copyright ?? null,

@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Post;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PostApiController extends Controller
 {
@@ -23,34 +22,56 @@ class PostApiController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index($input = null)
+    public function index()
     {
-        if($input) {
-            // If id supplied, pass to show()
-            if(!strstr($input, '-')) {
-                return $this->show($input);
-            }
+        // Get all posts
+        $posts = Post::where('active', true)
+            ->orderBy('date', 'desc')
+            ->orderBy('updated_at', 'desc')
+            ->get();
 
-            // Else if date supplied, show only posts from date
-            $posts = Post::where('date', $input)
-                ->where('active', true)
-                ->orderBy('updated_at', 'desc')
-                ->get();
+        $msg = 'List of all Active Posts';
 
-            $msg = 'List of Active Posts on ' . date('F j, Y', strtotime($input));
-
-        } else {
-            // Else show them all
-            $posts = Post::where('active', true)
-                ->orderBy('date', 'desc')
-                ->orderBy('updated_at', 'desc')
-                ->get();
-
-            $msg = 'List of all Active Posts';
-
+        $users = User::all();
+        $user_names = [];
+        foreach($users as $user) {
+            $user_names[$user->id] = $user->name;
         }
+
+        foreach($posts as $post) {
+            $post->user_posted = $user_names[$post->user_id];
+            $post->show_post = [
+                'href' => "api/v1/posts/{$post->id}",
+                'method' => 'GET'
+            ];
+        }
+
+        $response = [
+            'msg' => $msg,
+            'posts' => $posts
+        ];
+
+        return response()->json($response, 200);
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  string $date
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function indexForDate($date)
+    {
+        // Get all posts for date
+        $posts = Post::where('date', $date)
+            ->where('active', true)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        $msg = 'List of Active Posts on ' . date('F j, Y', strtotime($date));
 
         $users = User::all();
         $user_names = [];
@@ -79,7 +100,7 @@ class PostApiController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -98,7 +119,11 @@ class PostApiController extends Controller
                     'GET',
                     $request->input('nasa_apod_url')
                 );
-            } catch (RequestException $e) {
+            } catch (Exception\ConnectException $e) {
+                return response()->json([
+                    'msg' => "Request to NASA's APOD API failed"
+                ], 500);
+            } catch (Exception\RequestException $e) {
                 return response()->json([
                     'msg' => "Request to NASA's APOD API failed"
                 ], 500);
@@ -177,7 +202,7 @@ class PostApiController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -206,7 +231,7 @@ class PostApiController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -269,7 +294,7 @@ class PostApiController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
